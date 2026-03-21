@@ -1,74 +1,52 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
     <title>Para Celes 🌻</title>
-    <style>
-        body { margin: 0; background-color: black; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        canvas { max-width: 95vw; max-height: 95vh; }
-    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
 </head>
-<body>
-    <canvas id="flowerCanvas"></canvas>
+<body onload="brython()" style="margin:0; background:black; overflow:hidden;">
+    <div id="turtle-div"></div>
+    <script type="text/python">
+from browser import document
+import turtle
+turtle.set_panel("turtle-div")
+t = turtle.Turtle()
+t.hideturtle()
+t.speed(0) # Máxima velocidad para que cargue rápido en web
+turtle.bgcolor("black")
 
-    <script>
-        const canvas = document.getElementById('flowerCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = 800;
-        canvas.height = 800;
-        ctx.translate(400, 400); // Centrar el dibujo
+def go(x, y):
+    t.penup()
+    t.goto(x, y)
+    t.pendown()
 
-        let step = 0;
+# Envoltura
+t.pencolor("Blue"); t.fillcolor("LightBlue")
+go(40,-167); t.begin_fill(); t.seth(105); t.circle(120,30); t.seth(50); t.circle(-315,16); t.seth(34); t.circle(172,65); t.seth(186); t.circle(227,53); t.seth(239); t.circle(99,72); t.seth(214); t.circle(74,50); t.seth(336); t.circle(108,47); t.end_fill()
+go(-37,-70); t.begin_fill(); t.seth(99); t.circle(-122,55); t.seth(132); t.circle(188,48); t.seth(253); t.circle(135,95); t.end_fill()
 
-        function drawFlower(x, y) {
-            // Pétalos amarillos
-            ctx.fillStyle = "yellow"; ctx.strokeStyle = "orange"; ctx.lineWidth = 2;
-            for (let i = 0; i < 12; i++) {
-                ctx.beginPath();
-                ctx.ellipse(x, y, 8, 25, (i * Math.PI) / 6, 0, Math.PI * 2);
-                ctx.fill(); ctx.stroke();
-            }
-            // Centro café
-            ctx.fillStyle = "#5D2906"; ctx.beginPath();
-            ctx.arc(x, y, 12, 0, Math.PI * 2); ctx.fill();
-        }
+# Moño
+t.pencolor("MediumVioletRed"); t.fillcolor("HotPink")
+go(70,-55); t.begin_fill(); t.seth(185); t.circle(91,54); t.seth(128); t.circle(112,46); t.seth(235); t.circle(80,70); t.seth(10); t.circle(153,32); t.seth(311); t.circle(108,43); t.seth(58); t.circle(88,63); t.end_fill()
+go(16,-99); t.begin_fill(); t.seth(90); t.circle(19); t.end_fill()
 
-        function animate() {
-            if (step < 100) {
-                // Dibujar envoltura azul poco a poco
-                ctx.strokeStyle = "lightblue"; ctx.lineWidth = 5;
-                ctx.beginPath();
-                ctx.arc(0, 100, step * 1.5, 0, Math.PI, false);
-                ctx.stroke();
-            } 
-            else if (step == 110) drawFlower(150, -50);
-            else if (step == 130) drawFlower(60, -120);
-            else if (step == 150) drawFlower(-45, -80);
-            else if (step == 170) drawFlower(-10, 0);
-            else if (step == 190) drawFlower(65, -30);
-            else if (step == 210) {
-                // Moño rosa
-                ctx.fillStyle = "hotpink"; ctx.strokeStyle = "mediumvioletred";
-                ctx.beginPath(); ctx.arc(0, 120, 25, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-            }
-            else if (step == 240) {
-                // Mensaje final
-                ctx.fillStyle = "gold";
-                ctx.font = "italic bold 35px Arial";
-                ctx.textAlign = "center";
-                ctx.fillText("Te quiero, Celes. Para tu", 0, 300);
-                return; // Detener animación
-            }
+# Girasoles
+def flor(x, y):
+    t.pencolor("Orange"); t.fillcolor("Yellow")
+    go(x,y); t.begin_fill()
+    for a in [330,42,114,186,258]: t.seth(a); t.circle(23,236)
+    t.end_fill()
+    t.pencolor("SaddleBrown"); t.fillcolor("SaddleBrown")
+    go(x-5,y+21); t.begin_fill(); t.seth(90); t.circle(22); t.end_fill()
 
-            step++;
-            requestAnimationFrame(animate);
-        }
+flor(155,115); flor(61,170); flor(-45,120); flor(-11,41); flor(65,85)
 
-        // Iniciar animación después de 1 segundo de carga
-        setTimeout(() => {
-            requestAnimationFrame(animate);
-        }, 1000);
+# Mensaje
+t.color("Gold")
+go(0,-240)
+t.write("Te quiero, Celes. Para tu", align="center", font=("Arial",20,"bold italic"))
     </script>
 </body>
 </html>
