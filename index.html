@@ -6,21 +6,27 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
 </head>
-<body onload="brython()" style="margin:0; background:black; overflow:hidden;">
-    <div id="turtle-div"></div>
+<body onload="brython()" style="margin:0; background:black; overflow:hidden; display: flex; justify-content: center; align-items: center; height: 100vh;">
+    
+    <div id="turtle-div" style="width: 800px; height: 600px;"></div>
+
     <script type="text/python">
-from browser import document
+from browser import document, window
 import turtle
+
+# Configuramos el panel donde se dibujará
 turtle.set_panel("turtle-div")
 t = turtle.Turtle()
 t.hideturtle()
-t.speed(0) # Máxima velocidad para que cargue rápido en web
+t.speed(0) 
 turtle.bgcolor("black")
 
 def go(x, y):
     t.penup()
     t.goto(x, y)
     t.pendown()
+
+# --- Tu dibujo original ---
 
 # Envoltura
 t.pencolor("Blue"); t.fillcolor("LightBlue")
@@ -46,7 +52,7 @@ flor(155,115); flor(61,170); flor(-45,120); flor(-11,41); flor(65,85)
 # Mensaje
 t.color("Gold")
 go(0,-240)
-t.write("Te quiero, Celes. Para tu", align="center", font=("Arial",20,"bold italic"))
+t.write("Te quiero, Celes. Para ti", align="center", font=("Arial",20,"bold italic"))
     </script>
 </body>
 </html>
