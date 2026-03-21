@@ -2,44 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Celes 🌻</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.10.7/brython.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.10.7/brython_stdlib.js"></script>
-    <style>
-        body { 
-            margin: 0; 
-            background-color: black; 
-            color: white;
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh;
-            font-family: Arial, sans-serif;
-        }
-        /* Este es el contenedor del dibujo */
-        #turtle-div {
-            width: 100%;
-            height: 80vh;
-            background-color: black;
-        }
-    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
 </head>
-<body onload="brython()">
+<body onload="brython()" style="margin:0; background:black; overflow:hidden;">
     <div id="turtle-div"></div>
-
     <script type="text/python">
 from browser import document
 import turtle
-
-# Conectar la tortuga al div que creamos arriba
 turtle.set_panel("turtle-div")
-
 t = turtle.Turtle()
 t.hideturtle()
-t.pensize(4)
-t.speed(10)
+t.speed(0) # Máxima velocidad para que cargue rápido en web
 turtle.bgcolor("black")
 
 def go(x, y):
@@ -47,58 +22,31 @@ def go(x, y):
     t.goto(x, y)
     t.pendown()
 
-# --- DIBUJO ---
 # Envoltura
-t.pencolor("Blue")
-t.fillcolor("LightBlue")
-go(40, -167)
-t.begin_fill()
-t.seth(105); t.circle(120, 30); t.seth(50); t.circle(-315, 16); t.seth(34); t.circle(172, 65)
-t.seth(186); t.circle(227, 53); t.seth(239); t.circle(99, 72); t.seth(214); t.circle(74, 50)
-t.seth(336); t.circle(108, 47)
-t.end_fill()
-
-go(-37, -70)
-t.begin_fill()
-t.seth(99); t.circle(-122, 55); t.seth(132); t.circle(188, 48); t.seth(253); t.circle(135, 95)
-t.end_fill()
+t.pencolor("Blue"); t.fillcolor("LightBlue")
+go(40,-167); t.begin_fill(); t.seth(105); t.circle(120,30); t.seth(50); t.circle(-315,16); t.seth(34); t.circle(172,65); t.seth(186); t.circle(227,53); t.seth(239); t.circle(99,72); t.seth(214); t.circle(74,50); t.seth(336); t.circle(108,47); t.end_fill()
+go(-37,-70); t.begin_fill(); t.seth(99); t.circle(-122,55); t.seth(132); t.circle(188,48); t.seth(253); t.circle(135,95); t.end_fill()
 
 # Moño
-t.pencolor("MediumVioletRed")
-t.fillcolor("HotPink")
-go(70, -55)
-t.begin_fill()
-t.seth(185); t.circle(91, 54); t.seth(128); t.circle(112, 46); t.seth(235); t.circle(80, 70)
-t.seth(10); t.circle(153, 32); t.seth(311); t.circle(108, 43); t.seth(58); t.circle(88, 63)
-t.end_fill()
-go(16, -99); t.begin_fill(); t.seth(90); t.circle(19); t.end_fill()
-
-# Hojas
-def hojas(angulo):
-    t.begin_fill()
-    t.seth(angulo); t.circle(75, 121); t.seth(angulo+175); t.circle(72, 130)
-    t.end_fill()
-t.pencolor("DarkGreen"); t.fillcolor("LimeGreen")
-go(-79, 110); hojas(165); go(-122, 151); hojas(80)
-t.fillcolor("LawnGreen")
-go(-100, 124); hojas(119); go(-90, 135); hojas(22)
+t.pencolor("MediumVioletRed"); t.fillcolor("HotPink")
+go(70,-55); t.begin_fill(); t.seth(185); t.circle(91,54); t.seth(128); t.circle(112,46); t.seth(235); t.circle(80,70); t.seth(10); t.circle(153,32); t.seth(311); t.circle(108,43); t.seth(58); t.circle(88,63); t.end_fill()
+go(16,-99); t.begin_fill(); t.seth(90); t.circle(19); t.end_fill()
 
 # Girasoles
 def flor(x, y):
     t.pencolor("Orange"); t.fillcolor("Yellow")
-    go(x, y); t.begin_fill()
-    for ang in [330, 42, 114, 186, 258]:
-        t.seth(ang); t.circle(23, 236)
+    go(x,y); t.begin_fill()
+    for a in [330,42,114,186,258]: t.seth(a); t.circle(23,236)
     t.end_fill()
     t.pencolor("SaddleBrown"); t.fillcolor("SaddleBrown")
-    go(x-5, y+21); t.begin_fill(); t.seth(90); t.circle(22); t.end_fill()
+    go(x-5,y+21); t.begin_fill(); t.seth(90); t.circle(22); t.end_fill()
 
-flor(155, 115); flor(61, 170); flor(-45, 120); flor(-11, 41); flor(65, 85)
+flor(155,115); flor(61,170); flor(-45,120); flor(-11,41); flor(65,85)
 
 # Mensaje
 t.color("Gold")
-go(0, -240)
-t.write("Te quiero, Celes. Para tu", False, "center", ("Arial", 20, "bold italic"))
+go(0,-240)
+t.write("Te quiero, Celes. Para tu", align="center", font=("Arial",20,"bold italic"))
     </script>
 </body>
 </html>
