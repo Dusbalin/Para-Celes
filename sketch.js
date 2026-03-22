@@ -4,93 +4,90 @@ let drawing = false;
 function setup() {
   createCanvas(600, 600);
   background(255);
-  // No necesitamos translate/scale aquí porque lo manejaremos dentro de la tortuga
-  
   myTurtle = new p5.Turtle();
-  myTurtle.speed(5); // Velocidad equilibrada
+  myTurtle.speed(8); // Un poco más rápido para que no desespere
   
-  // --- DEFINICIÓN DEL DIBUJO ---
+  // --- INSTRUCCIONES ---
   
-  // 1. Envoltura
+  // 1. Envoltura Azul (Al fondo)
   myTurtle.pencolor("Blue");
   myTurtle.fillcolor("LightBlue");
-  myTurtle.go(40.03, -167.53);
+  myTurtle.go(40, -167);
   myTurtle.begin_fill();
-  myTurtle.seth(104.91); myTurtle.circle(120.54, 29.94);
-  myTurtle.seth(49.57); myTurtle.circle(-315.30, 15.58);
-  myTurtle.seth(33.99); myTurtle.circle(172.07, 64.94);
-  myTurtle.seth(185.9); myTurtle.circle(227.51, 53.26);
-  myTurtle.seth(239.17); myTurtle.circle(99.15, 72.41);
-  myTurtle.seth(213.64); myTurtle.circle(74.25, 50.32);
-  myTurtle.seth(336.29); myTurtle.circle(108.41, 47.43);
+  myTurtle.seth(104); myTurtle.circle(120, 30);
+  myTurtle.seth(50); myTurtle.circle(-315, 15);
+  myTurtle.seth(34); myTurtle.circle(172, 65);
+  myTurtle.seth(185); myTurtle.circle(227, 53);
+  myTurtle.seth(239); myTurtle.circle(99, 72);
+  myTurtle.seth(213); myTurtle.circle(74, 50);
+  myTurtle.seth(336); myTurtle.circle(108, 47);
   myTurtle.end_fill();
 
-  myTurtle.go(-37.02, -69.53);
+  myTurtle.go(-37, -69);
   myTurtle.begin_fill();
-  myTurtle.seth(98.75); myTurtle.circle(-121.74, 54.75);
-  myTurtle.seth(131.6); myTurtle.circle(187.54, 48.16);
-  myTurtle.seth(253.4); myTurtle.circle(134.51, 95.25);
+  myTurtle.seth(98); myTurtle.circle(-121, 54);
+  myTurtle.seth(131); myTurtle.circle(187, 48);
+  myTurtle.seth(253); myTurtle.circle(134, 95);
   myTurtle.end_fill();
 
-  // 2. Moño
-  myTurtle.pencolor("MediumVioletRed");
-  myTurtle.fillcolor("HotPink");
-  myTurtle.go(69.69, -55.52);
-  myTurtle.begin_fill();
-  myTurtle.seth(184.72); myTurtle.circle(90.59, 53.66);
-  myTurtle.seth(127.63); myTurtle.circle(111.93, 45.5);
-  myTurtle.seth(234.89); myTurtle.circle(80.10, 70.23);
-  myTurtle.seth(9.8); myTurtle.circle(152.91, 31.68);
-  myTurtle.seth(311.3); myTurtle.circle(108.05, 42.6);
-  myTurtle.seth(58.45); myTurtle.circle(88.07, 63.09);
-  myTurtle.end_fill();
-
-  myTurtle.go(16.3, -99.27);
-  myTurtle.begin_fill();
-  myTurtle.seth(90); myTurtle.circle(19.5, 360);
-  myTurtle.end_fill();
-
-  // 3. Hojas
+  // 2. Hojas
   myTurtle.pencolor("DarkGreen");
   myTurtle.fillcolor("LimeGreen");
-  dibujarHoja(-79.30, 110.03, 165.01);
-  dibujarHoja(-122.12, 151, 79.67);
-  myTurtle.fillcolor("LawnGreen");
-  dibujarHoja(-100.51, 123.98, 119.46);
-  dibujarHoja(-90.46, 135.14, 22.07);
-
-  function dibujarHoja(x, y, ang) {
-    myTurtle.go(x, y);
-    myTurtle.begin_fill();
-    myTurtle.seth(ang); myTurtle.circle(75.61, 121.08);
-    myTurtle.seth(ang + 175.63); myTurtle.circle(72.70, 129.82);
+  const dHoja = (x,y,a) => {
+    myTurtle.go(x,y); myTurtle.begin_fill();
+    myTurtle.seth(a); myTurtle.circle(75, 121);
+    myTurtle.seth(a+175); myTurtle.circle(72, 130);
     myTurtle.end_fill();
   }
+  dHoja(-79, 110, 165);
+  dHoja(-122, 151, 80);
+  myTurtle.fillcolor("LawnGreen");
+  dHoja(-100, 124, 119);
+  dHoja(-90, 135, 22);
 
-  // 4. Flores
-  function dibujarFlor(x, y) {
+  // 3. Moño (Encima de la envoltura)
+  myTurtle.pencolor("MediumVioletRed");
+  myTurtle.fillcolor("HotPink");
+  myTurtle.go(69, -55);
+  myTurtle.begin_fill();
+  myTurtle.seth(184); myTurtle.circle(90, 53);
+  myTurtle.seth(127); myTurtle.circle(111, 45);
+  myTurtle.seth(234); myTurtle.circle(80, 70);
+  myTurtle.seth(9); myTurtle.circle(152, 31);
+  myTurtle.seth(311); myTurtle.circle(108, 42);
+  myTurtle.seth(58); myTurtle.circle(88, 63);
+  myTurtle.end_fill();
+
+  myTurtle.go(16, -99);
+  myTurtle.begin_fill();
+  myTurtle.seth(90); myTurtle.circle(19, 360);
+  myTurtle.end_fill();
+
+  // 4. Flores (Al frente de todo)
+  const dFlor = (x, y) => {
     myTurtle.pencolor("Orange");
     myTurtle.fillcolor("Yellow");
     myTurtle.go(x, y);
     myTurtle.begin_fill();
-    let angs = [330.2, 42.2, 114.2, 186.2, 258.2];
-    for(let a of angs) { myTurtle.seth(a); myTurtle.circle(22.66, 236.14); }
+    for(let i=0; i<5; i++) { 
+        myTurtle.seth(330 + (i*72)); 
+        myTurtle.circle(22, 236); 
+    }
     myTurtle.end_fill();
     myTurtle.pencolor("SaddleBrown");
     myTurtle.fillcolor("SaddleBrown");
-    myTurtle.go(x - 4.81, y + 20.88);
+    myTurtle.go(x-4, y+20);
     myTurtle.begin_fill();
-    myTurtle.seth(90); myTurtle.circle(22.5, 360);
+    myTurtle.circle(22, 360);
     myTurtle.end_fill();
   }
+  dFlor(155, 115);
+  dFlor(60, 170);
+  dFlor(-45, 120);
+  dFlor(-11, 41);
+  dFlor(65, 85);
 
-  dibujarFlor(155.36, 115.58);
-  dibujarFlor(60.97, 170);
-  dibujarFlor(-45.377, 120);
-  dibujarFlor(-11.60, 41.39);
-  dibujarFlor(65.71, 85.27);
-
-  // 5. Mensaje
+  // 5. Texto
   myTurtle.add_queue(() => {
     push(); translate(width/2, height/2);
     fill("Gold"); noStroke(); textAlign(CENTER);
@@ -103,39 +100,37 @@ function setup() {
 
 function draw() { if (drawing) myTurtle.update(); }
 
-// --- MOTOR DE LA TORTUGA ---
+// Motor mejorado
 p5.Turtle = function() {
   this.x = 0; this.y = 0; this.angle = 90;
-  this._pcolor = "black"; this._fcolor = "white"; this._speed = 5;
-  this.queue = []; this.path = []; this.filling = false;
+  this._pc = "black"; this._fc = "white"; this._s = 5;
+  this.q = []; this.path = []; this.f = false;
 
-  this.go = (x, y) => this.add_queue(() => { this.x = x; this.y = y; if(this.filling) this.path.push({x,y}); });
+  this.go = (x, y) => this.add_queue(() => { this.x = x; this.y = y; if(this.f) this.path.push({x,y}); });
   this.seth = (a) => this.add_queue(() => { this.angle = a; });
-  this.pencolor = (c) => this.add_queue(() => { this._pcolor = c; });
-  this.fillcolor = (c) => this.add_queue(() => { this._fcolor = c; });
-  this.begin_fill = () => this.add_queue(() => { this.path = [{x:this.x, y:this.y}]; this.filling = true; });
+  this.pencolor = (c) => this.add_queue(() => { this._pc = c; });
+  this.fillcolor = (c) => this.add_queue(() => { this._fc = c; });
+  this.begin_fill = () => this.add_queue(() => { this.path = [{x:this.x, y:this.y}]; this.f = true; });
   this.end_fill = () => this.add_queue(() => {
-    this.filling = false; push(); translate(width/2, height/2); scale(1,-1);
-    fill(this._fcolor); stroke(this._pcolor); strokeWeight(4);
+    this.f = false; push(); translate(width/2, height/2); scale(1,-1);
+    fill(this._fc); stroke(this._pc); strokeWeight(4);
     beginShape(); for(let p of this.path) vertex(p.x, p.y); endShape(CLOSE); pop();
   });
-
   this.circle = (r, ext) => {
-    let steps = 15; let sAng = ext/steps;
+    let steps = floor(abs(ext)/4); let sA = ext/steps;
     for(let i=0; i<steps; i++) {
       this.add_queue(() => {
         let ox = this.x, oy = this.y;
-        this.angle += sAng;
-        this.x += (2*r*sin(radians(sAng/2))) * cos(radians(this.angle-90+sAng/2));
-        this.y += (2*r*sin(radians(sAng/2))) * sin(radians(this.angle-90+sAng/2));
+        this.angle += sA;
+        this.x += (2*r*sin(radians(sA/2))) * cos(radians(this.angle-90+sA/2));
+        this.y += (2*r*sin(radians(sA/2))) * sin(radians(this.angle-90+sA/2));
         push(); translate(width/2, height/2); scale(1,-1);
-        stroke(this._pcolor); strokeWeight(4); line(ox, oy, this.x, this.y); pop();
-        if(this.filling) this.path.push({x:this.x, y:this.y});
+        stroke(this._pc); strokeWeight(4); line(ox, oy, this.x, this.y); pop();
+        if(this.f) this.path.push({x:this.x, y:this.y});
       });
     }
   };
-
-  this.speed = (s) => this._speed = s;
-  this.add_queue = (f) => this.queue.push(f);
-  this.update = () => { for(let i=0; i<this._speed && this.queue.length>0; i++) this.queue.shift()(); };
+  this.speed = (s) => this._s = s;
+  this.add_queue = (f) => this.q.push(f);
+  this.update = () => { for(let i=0; i<this._s && this.q.length>0; i++) this.q.shift()(); };
 };
