@@ -94,7 +94,7 @@ function setup() {
     push(); translate(width/2, height/2);
     fill("Gold"); noStroke(); textAlign(CENTER);
     textSize(32); textStyle(BOLDITALIC);
-    text("Te quiero, Celes.", 0, 250); pop();
+    text("Te quiero, Celes. Para tu", 0, 250); pop();
   });
 
   drawing = true;
