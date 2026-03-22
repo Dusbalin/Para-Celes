@@ -1,52 +1,152 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="es">
 <head>
-    <meta charset="utf-8">
-    <title>Para Celes 🌻</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
-</head>
-<body onload="brython()" style="margin:0; background:black; overflow:hidden;">
-    <div id="turtle-div"></div>
-    <script type="text/python">
-from browser import document
-import turtle
-turtle.set_panel("turtle-div")
-t = turtle.Turtle()
-t.hideturtle()
-t.speed(0) # Máxima velocidad para que cargue rápido en web
-turtle.bgcolor("black")
+<meta charset="UTF-8">
+<title>Para Celes 💐</title><style>
+body{
+  margin:0;
+  background:black;
+}
+canvas{
+  display:block;
+  margin:auto;
+  background:black;
+}
+</style></head><body>
+<canvas id="c" width="600" height="800"></canvas><script>
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
 
-def go(x, y):
-    t.penup()
-    t.goto(x, y)
-    t.pendown()
+let pasos = [];
 
-# Envoltura
-t.pencolor("Blue"); t.fillcolor("LightBlue")
-go(40,-167); t.begin_fill(); t.seth(105); t.circle(120,30); t.seth(50); t.circle(-315,16); t.seth(34); t.circle(172,65); t.seth(186); t.circle(227,53); t.seth(239); t.circle(99,72); t.seth(214); t.circle(74,50); t.seth(336); t.circle(108,47); t.end_fill()
-go(-37,-70); t.begin_fill(); t.seth(99); t.circle(-122,55); t.seth(132); t.circle(188,48); t.seth(253); t.circle(135,95); t.end_fill()
+// 🔹 Función para simular turtle (líneas progresivas)
+function lineaAnimada(x1,y1,x2,y2,color,grosor=2,delay=0){
+  pasos.push(()=>{
+    return new Promise(resolve=>{
+      let t=0;
+      function draw(){
+        t+=0.02;
+        if(t>1)t=1;
 
-# Moño
-t.pencolor("MediumVioletRed"); t.fillcolor("HotPink")
-go(70,-55); t.begin_fill(); t.seth(185); t.circle(91,54); t.seth(128); t.circle(112,46); t.seth(235); t.circle(80,70); t.seth(10); t.circle(153,32); t.seth(311); t.circle(108,43); t.seth(58); t.circle(88,63); t.end_fill()
-go(16,-99); t.begin_fill(); t.seth(90); t.circle(19); t.end_fill()
+        ctx.strokeStyle=color;
+        ctx.lineWidth=grosor;
 
-# Girasoles
-def flor(x, y):
-    t.pencolor("Orange"); t.fillcolor("Yellow")
-    go(x,y); t.begin_fill()
-    for a in [330,42,114,186,258]: t.seth(a); t.circle(23,236)
-    t.end_fill()
-    t.pencolor("SaddleBrown"); t.fillcolor("SaddleBrown")
-    go(x-5,y+21); t.begin_fill(); t.seth(90); t.circle(22); t.end_fill()
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(
+          x1+(x2-x1)*t,
+          y1+(y2-y1)*t
+        );
+        ctx.stroke();
 
-flor(155,115); flor(61,170); flor(-45,120); flor(-11,41); flor(65,85)
+        if(t<1){
+          requestAnimationFrame(draw);
+        }else{
+          resolve();
+        }
+      }
+      setTimeout(draw,delay);
+    });
+  });
+}
 
-# Mensaje
-t.color("Gold")
-go(0,-240)
-t.write("Te quiero, Celes. Para tu", align="center", font=("Arial",20,"bold italic"))
-    </script>
-</body>
+// 🔹 círculo animado (para pétalos)
+function circuloAnimado(x,y,r,color,delay=0){
+  pasos.push(()=>{
+    return new Promise(resolve=>{
+      let ang=0;
+      function draw(){
+        ang+=0.1;
+
+        ctx.beginPath();
+        ctx.arc(x,y,r,0,ang);
+        ctx.fillStyle=color;
+        ctx.fill();
+
+        if(ang<Math.PI*2){
+          requestAnimationFrame(draw);
+        }else{
+          resolve();
+        }
+      }
+      setTimeout(draw,delay);
+    });
+  });
+}
+
+// 🌻 Flor tipo girasol
+function flor(x,y){
+  // pétalos
+  for(let i=0;i<8;i++){
+    let ang = i*(Math.PI*2/8);
+    let px = x + Math.cos(ang)*20;
+    let py = y + Math.sin(ang)*20;
+    circuloAnimado(px,py,12,"yellow");
+  }
+  // centro
+  circuloAnimado(x,y,12,"saddlebrown");
+}
+
+// 🌿 hoja
+function hoja(x,y){
+  lineaAnimada(x,y,x-30,y-40,"limegreen",3);
+  lineaAnimada(x,y,x+30,y-40,"limegreen",3);
+}
+
+// 🎀 base ramo
+function base(){
+  lineaAnimada(300,500,200,650,"lightblue",4);
+  lineaAnimada(300,500,400,650,"lightblue",4);
+}
+
+// ✍️ texto final
+function texto(){
+  pasos.push(()=>{
+    return new Promise(resolve=>{
+      ctx.fillStyle="gold";
+      ctx.font="26px Arial";
+      ctx.textAlign="center";
+
+      let txt="Te quiero, Celes. Para tu";
+      let i=0;
+
+      function escribir(){
+        ctx.fillText(txt.substring(0,i),300,750);
+        i++;
+        if(i<=txt.length){
+          setTimeout(escribir,80);
+        }else{
+          resolve();
+        }
+      }
+      escribir();
+    });
+  });
+}
+
+
+// --- ORDEN DE DIBUJO (como turtle) ---
+base();
+
+flor(300,300);
+flor(220,250);
+flor(380,250);
+flor(260,180);
+flor(340,150);
+
+hoja(260,350);
+hoja(340,350);
+
+texto();
+
+
+// ▶️ Ejecutar animación en secuencia
+async function ejecutar(){
+  for(let paso of pasos){
+    await paso();
+  }
+}
+
+ejecutar();
+
+</script></body>
 </html>
