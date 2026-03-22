@@ -1,229 +1,27 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Para Celes 💐</title><style>
-body{
-  margin:0;
-  background:black;
-}
-canvas{
-  display:block;
-}
-</style></head><body>
-<canvas id="c"></canvas><script>
-const canvas = document.getElementById("c");
-const ctx = canvas.getContext("2d");
-
-function resize(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener("resize", resize);
-
-let pasos = [];
-
-// centro dinámico
-const cx = () => canvas.width/2;
-const by = () => canvas.height*0.55;
-
-
-// 🐢 arco animado tipo turtle.circle
-function arco(x,y,r,ini,fin,color,fill=false){
-  pasos.push(()=> new Promise(res=>{
-    let t=ini;
-
-    function draw(){
-      t += 0.05;
-
-      ctx.beginPath();
-      ctx.arc(x,y,r,ini,t);
-      ctx.strokeStyle=color;
-      ctx.lineWidth=3;
-      ctx.stroke();
-
-      if(fill){
-        ctx.lineTo(x,y);
-        ctx.fillStyle=color;
-        ctx.fill();
-      }
-
-      if(t<fin){
-        requestAnimationFrame(draw);
-      }else{
-        res();
-      }
-    }
-    draw();
-  }));
-}
-
-
-// 🌻 flor tipo girasol (como turtle)
-function flor(x,y){
-  for(let i=0;i<5;i++){
-    let ang = i*(Math.PI*2/5);
-
-    pasos.push(()=> new Promise(res=>{
-      let t=0;
-      function draw(){
-        t+=0.08;
-
-        ctx.beginPath();
-        ctx.ellipse(
-          x + Math.cos(ang)*22,
-          y + Math.sin(ang)*22,
-          12,22,
-          ang,
-          0, Math.PI*2*t
-        );
-        ctx.fillStyle="yellow";
-        ctx.fill();
-
-        if(t<1) requestAnimationFrame(draw);
-        else res();
-      }
-      draw();
-    }));
-  }
-
-  // centro café
-  pasos.push(()=> new Promise(res=>{
-    let r=0;
-    function draw(){
-      r+=1.2;
-      ctx.beginPath();
-      ctx.arc(x,y,r,0,Math.PI*2);
-      ctx.fillStyle="saddlebrown";
-      ctx.fill();
-
-      if(r<14) requestAnimationFrame(draw);
-      else res();
-    }
-    draw();
-  }));
-}
-
-
-// 🌿 hoja (curva tipo turtle)
-function hoja(x,y,dir){
-  pasos.push(()=> new Promise(res=>{
-    ctx.fillStyle="limegreen";
-    ctx.beginPath();
-
-    ctx.moveTo(x,y);
-    ctx.quadraticCurveTo(
-      x + dir*60, y-80,
-      x + dir*20, y-110
-    );
-    ctx.quadraticCurveTo(
-      x + dir*90, y-60,
-      x,y
-    );
-
-    ctx.fill();
-    res();
-  }));
-}
-
-
-// 📦 envoltura tipo turtle
-function envoltura(){
-  let x = cx();
-  let y = by();
-
-  pasos.push(()=> new Promise(res=>{
-    ctx.fillStyle="lightblue";
-    ctx.beginPath();
-
-    ctx.moveTo(x,y);
-    ctx.quadraticCurveTo(x-140,y+140,x-30,y+200);
-    ctx.quadraticCurveTo(x,y+230,x+30,y+200);
-    ctx.quadraticCurveTo(x+140,y+140,x,y);
-
-    ctx.fill();
-    res();
-  }));
-}
-
-
-// 🎀 moño tipo turtle
-function mono(){
-  let x = cx();
-  let y = by()+90;
-
-  pasos.push(()=> new Promise(res=>{
-    ctx.fillStyle="hotpink";
-
-    ctx.beginPath();
-    ctx.ellipse(x-25,y,30,20,0,0,Math.PI*2);
-    ctx.ellipse(x+25,y,30,20,0,0,Math.PI*2);
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(x,y,10,0,Math.PI*2);
-    ctx.fillStyle="deeppink";
-    ctx.fill();
-
-    res();
-  }));
-}
-
-
-// ✍️ texto EXACTO
-function texto(){
-  pasos.push(()=> new Promise(res=>{
-    let txt="Te quiero, Celes. Para tu";
-    let i=0;
-
-    function escribir(){
-      ctx.clearRect(0,canvas.height-120,canvas.width,120);
-
-      ctx.fillStyle="gold";
-      ctx.font = Math.floor(canvas.width*0.055)+"px Arial";
-      ctx.textAlign="center";
-
-      ctx.fillText(txt.substring(0,i), cx(), canvas.height-40);
-
-      i++;
-
-      if(i<=txt.length){
-        setTimeout(escribir,60);
-      }else{
-        res();
-      }
-    }
-
-    escribir();
-  }));
-}
-
-
-
-// 🌻 distribución (similar a tu turtle pero centrado)
-envoltura();
-
-flor(cx()+80, by()-160);
-flor(cx(), by()-200);
-flor(cx()-90, by()-150);
-flor(cx()-30, by()-80);
-flor(cx()+50, by()-100);
-
-hoja(cx()-70, by()-60, -1);
-hoja(cx()-110, by()-120, -1);
-hoja(cx()+60, by()-80, 1);
-
-mono();
-texto();
-
-
-// ▶️ ejecutar
-async function run(){
-  for(let p of pasos){
-    await p();
-  }
-}
-run();
-
-</script></body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Celes</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <script src="sketch.js"></script>
+</body>
 </html>
