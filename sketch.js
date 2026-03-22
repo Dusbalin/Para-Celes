@@ -10,7 +10,7 @@ function setup() {
   
   myTurtle = new p5.Turtle();
   myTurtle.pensize(4);
-  myTurtle.speed(2); // Ajusta la velocidad aquí (1 es más lento, 10 más rápido)
+  myTurtle.speed(5); // Ajusta la velocidad aquí (1 es más lento, 10 más rápido)
 
   // --- DEFINIR EL DIBUJO ---
   
